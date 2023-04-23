@@ -52,7 +52,7 @@ func main() {
 		},
 		Action: func(cCtx *cli.Context) error {
 			opts := client.CreateClientOptions(broker, port, id, username, pass)
-			client.ProcessClient(opts)
+			client := client.CreateClient(opts)
 			return nil
 		},
 	}

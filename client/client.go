@@ -30,21 +30,22 @@ func CreateClientOptions(broker string, port int, id, username, pass string) *mq
 	return opts
 }
 
-func sub(client mqtt.Client, topic string) {
+func Sub(client mqtt.Client, topic string) {
 	token := client.Subscribe(topic, 1, nil)
 	token.Wait()
 	fmt.Printf("Subscribed to topic %s", topic)
 }
 
-func publish(client mqtt.Client, topic, text string) {
+func Publish(client mqtt.Client, topic, text string) {
 	token := client.Publish(topic, 0, false, text)
 	token.Wait()
 	fmt.Printf("Published to topic: %s ; text: %s", topic, text)
 }
 
-func ProcessClient(opts *mqtt.ClientOptions) {
+func CreateClient(opts *mqtt.ClientOptions) mqtt.Client {
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}
+	return client
 }
