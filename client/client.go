@@ -6,16 +6,18 @@ import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
+type Client mqtt.Client
+
 var messagePubHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
-	fmt.Printf("Received message: %s from topic: %s\n", msg.Payload(), msg.Topic())
+	fmt.Printf("\nReceived message: %s from topic: %s\n", msg.Payload(), msg.Topic())
 }
 
 var connectHandler mqtt.OnConnectHandler = func(client mqtt.Client) {
-	fmt.Println("Connected")
+	fmt.Println("\nConnected")
 }
 
 var connectLostHandler mqtt.ConnectionLostHandler = func(client mqtt.Client, err error) {
-	fmt.Printf("Connect lost: %v", err)
+	fmt.Printf("\nConnect lost: %v", err)
 }
 
 func CreateClientOptions(broker string, port int, id, username, pass string) *mqtt.ClientOptions {
@@ -30,19 +32,19 @@ func CreateClientOptions(broker string, port int, id, username, pass string) *mq
 	return opts
 }
 
-func Sub(client mqtt.Client, topic string) {
+func Subscribe(client Client, topic string) {
 	token := client.Subscribe(topic, 1, nil)
 	token.Wait()
-	fmt.Printf("Subscribed to topic %s", topic)
+	fmt.Printf("\nSubscribed to topic %s", topic)
 }
 
-func Publish(client mqtt.Client, topic, text string) {
-	token := client.Publish(topic, 0, false, text)
+func Publish(client Client, topic, data string) {
+	token := client.Publish(topic, 0, false, data)
 	token.Wait()
-	fmt.Printf("Published to topic: %s ; text: %s", topic, text)
+	fmt.Printf("\nPublished to topic: %s ; data: %s", topic, data)
 }
 
-func CreateClient(opts *mqtt.ClientOptions) mqtt.Client {
+func CreateClient(opts *mqtt.ClientOptions) Client {
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		panic(token.Error())

@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"simulator/client"
+	"simulator/simulator"
 
 	"github.com/urfave/cli/v2"
 )
@@ -53,6 +54,7 @@ func main() {
 		Action: func(cCtx *cli.Context) error {
 			opts := client.CreateClientOptions(broker, port, id, username, pass)
 			client := client.CreateClient(opts)
+			simulator.Simulate(client)
 			return nil
 		},
 	}
