@@ -7,7 +7,7 @@ import (
 )
 
 func Simulate(client client.Client) {
-	hygrometer := device.CreateDevice(client, 40, 40, "base/state/hymudity")
+	hygrometer := device.CreateDevice(client, 40, 40, "base/state/humidity")
 	termometer := device.CreateDevice(client, 25, 25, "base/state/temperature")
 	for {
 		hygrometer.Generate()
