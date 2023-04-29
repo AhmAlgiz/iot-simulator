@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+// measuring device
 type Device struct {
 	client client.Client
 	base   int
