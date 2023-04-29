@@ -7,10 +7,10 @@ import (
 // executive device
 type Appliance struct {
 	client client.Client
-	topic  string
+	topic  []string
 }
 
-func CreateAppliance(client client.Client, topic string) *Appliance {
+func CreateAppliance(client client.Client, topic []string) *Appliance {
 	return &Appliance{
 		client: client,
 		topic:  topic,
@@ -18,5 +18,7 @@ func CreateAppliance(client client.Client, topic string) *Appliance {
 }
 
 func (a *Appliance) Subscribe() {
-	client.Subscribe(a.client, a.topic)
+	for _, t := range a.topic {
+		client.Subscribe(a.client, t)
+	}
 }

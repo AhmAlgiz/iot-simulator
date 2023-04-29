@@ -9,8 +9,11 @@ import (
 func Simulate(client client.Client) {
 	hygrometer := device.CreateDevice(client, 40, 40, "base/state/humidity")
 	termometer := device.CreateDevice(client, 25, 25, "base/state/temperature")
-	heater := device.CreateAppliance(client, "base/state/heater")
-	conditioner := device.CreateAppliance(client, "base/state/conditioner")
+
+	heaterTopics := [2]string{"base/state/heater", "base/state/heater-temp"}
+	condTopics := [3]string{"base/state/conditioner", "base/state/conditioner-temp", "base/state/conditioner-hym"}
+	heater := device.CreateAppliance(client, heaterTopics[:])
+	conditioner := device.CreateAppliance(client, condTopics[:])
 	heater.Subscribe()
 	conditioner.Subscribe()
 
