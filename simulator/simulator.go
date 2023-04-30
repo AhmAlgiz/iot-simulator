@@ -27,8 +27,8 @@ func Simulate(c client.Client) {
 		hygrometer.Generate()
 		termometer.Generate()
 
-		go hygrometer.Publish()
-		go termometer.Publish()
+		hygrometer.Publish()
+		termometer.Publish()
 		time.Sleep(time.Second * 30)
 	}
 }
