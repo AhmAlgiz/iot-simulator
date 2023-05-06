@@ -32,6 +32,12 @@ func (h *Hygrometer) generateCondVal() int {
 		return 0
 	}
 	out := (deviceOptions.CondHum - h.value) / 5
+	if out < 0 {
+		out = 0
+	}
+	if out > 100 {
+		out = 100
+	}
 	return out
 }
 
