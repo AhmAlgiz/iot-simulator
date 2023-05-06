@@ -9,20 +9,20 @@ import (
 
 type Hygrometer Meter
 
-func CreateHygrometer(client client.Client, base int, topic string) *Hygrometer {
+func CreateHygrometer(client client.Client, value int, topic string) *Hygrometer {
 	return &Hygrometer{
 		client: client,
-		base:   base,
+		value:  value,
 		topic:  topic,
 	}
 }
 
 func (h *Hygrometer) Generate() {
-	h.base = h.generateBaseVal() + h.generateCondVal()
+	h.value = h.generatevalueVal() + h.generateCondVal()
 }
 
-func (h *Hygrometer) generateBaseVal() int {
-	return h.base + rand.Intn(9) - 4
+func (h *Hygrometer) generatevalueVal() int {
+	return h.value + rand.Intn(9) - 4
 }
 
 func (h *Hygrometer) generateCondVal() int {
@@ -31,10 +31,10 @@ func (h *Hygrometer) generateCondVal() int {
 		fmt.Printf("\nOptions read error: %e", err)
 		return 0
 	}
-	out := (deviceOptions.CondHum - h.base) / 5
+	out := (deviceOptions.CondHum - h.value) / 5
 	return out
 }
 
 func (h *Hygrometer) Publish() {
-	client.Publish(h.client, h.topic, strconv.Itoa(h.base))
+	client.Publish(h.client, h.topic, strconv.Itoa(h.value))
 }

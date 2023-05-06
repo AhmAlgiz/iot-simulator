@@ -9,20 +9,20 @@ import (
 
 type Termometer Meter
 
-func CreateTermometer(client client.Client, base int, topic string) *Termometer {
+func CreateTermometer(client client.Client, value int, topic string) *Termometer {
 	return &Termometer{
 		client: client,
-		base:   base,
+		value:  value,
 		topic:  topic,
 	}
 }
 
 func (t *Termometer) Generate() {
-	t.base = t.generateBaseVal() + t.generateCondVal()
+	t.value = t.generatevalueVal() + t.generateCondVal()
 }
 
-func (t *Termometer) generateBaseVal() int {
-	return t.base + rand.Intn(3) - 1
+func (t *Termometer) generatevalueVal() int {
+	return t.value + rand.Intn(3) - 1
 }
 
 func (t *Termometer) generateCondVal() int {
@@ -33,13 +33,13 @@ func (t *Termometer) generateCondVal() int {
 	}
 	var out int
 	if deviceOptions.HeaterStatus {
-		out = (deviceOptions.HeaterTemp - t.base) / 15
+		out = (deviceOptions.HeaterTemp - t.value) / 15
 	} else {
-		out = (deviceOptions.CondTemp - t.base) / 2
+		out = (deviceOptions.CondTemp - t.value) / 2
 	}
 	return out
 }
 
 func (t *Termometer) Publish() {
-	client.Publish(t.client, t.topic, strconv.Itoa(t.base))
+	client.Publish(t.client, t.topic, strconv.Itoa(t.value))
 }

@@ -7,6 +7,6 @@ import (
 // measuring devices struct
 type Meter struct {
 	client client.Client
-	base   int
+	value  int
 	topic  string
 }
